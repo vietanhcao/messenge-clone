@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import { Input } from "../../components/inputs/Input";
 import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import axios from "axios";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -28,20 +29,17 @@ export const AuthForm = () => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<FieldValues> = useCallback(
-		async (data) => {
-			setIsLoading(true);
+	const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+		setIsLoading(true);
 
-			if (variant === "REGISTER") {
-				// Axios  egister
-			}
+		if (variant === "REGISTER") {
+			axios.post("/api/register", data);
+		}
 
-			if (variant === "LOGIN") {
-				// Next Auth Signin
-			}
-		},
-		[variant]
-	);
+		if (variant === "LOGIN") {
+			// Next Auth Signin
+		}
+	};
 
 	const socialAction = (actions: string) => {
 		setIsLoading(true);
@@ -55,21 +53,21 @@ export const AuthForm = () => {
 					{variant === "REGISTER" && (
 						<Input
 							label="Name"
-							id="name-id"
+							id="name"
 							register={register}
 							errors={errors}
 						/>
 					)}
 					<Input
 						label="Email address"
-						id="email-id"
+						id="email"
 						type="email"
 						register={register}
 						errors={errors}
 					/>
 					<Input
 						label="Password"
-						id="password-id"
+						id="password"
 						type="password"
 						register={register}
 						errors={errors}
