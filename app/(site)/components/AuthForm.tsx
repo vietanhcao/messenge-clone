@@ -7,6 +7,8 @@ import { Input } from "../../components/inputs/Input";
 import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -33,17 +35,51 @@ export const AuthForm = () => {
 		setIsLoading(true);
 
 		if (variant === "REGISTER") {
-			axios.post("/api/register", data);
+			axios
+				.post("/api/register", data)
+				.catch((err) => {
+					toast.error("Something went wrong!");
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
 		}
 
 		if (variant === "LOGIN") {
-			// Next Auth Signin
+			signIn("credentials", {
+				...data,
+				redirect: false,
+			})
+				.then((callback) => {
+					if (callback?.error) {
+						toast.error("Invalid credentials!");
+					}
+					if (callback?.ok && !callback?.error) {
+						toast.success("Logged in successfully!");
+					}
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
 		}
 	};
 
 	const socialAction = (actions: string) => {
 		setIsLoading(true);
-		// next auth signin
+		signIn(actions, {
+			redirect: false,
+		})
+			.then((callback) => {
+				if (callback?.error) {
+					toast.error("Something went wrong!");
+				}
+				if (callback?.ok && !callback?.error) {
+					toast.success("Logged in successfully!");
+				}
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	};
 
 	return (
@@ -51,12 +87,7 @@ export const AuthForm = () => {
 			<div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
 				<form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
 					{variant === "REGISTER" && (
-						<Input
-							label="Name"
-							id="name"
-							register={register}
-							errors={errors}
-						/>
+						<Input label="Name" id="name" register={register} errors={errors} />
 					)}
 					<Input
 						label="Email address"
