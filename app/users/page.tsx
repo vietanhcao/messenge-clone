@@ -1,4 +1,3 @@
-"use client";
 import EmtyState from "../components/EmtyState";
 
 const User = () => {
