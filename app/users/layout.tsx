@@ -1,4 +1,6 @@
+import getUsers from "../actions/getUsers";
 import Sidebar from "../components/sidebar/Sidebar";
+import UserList from "./components/UserList";
 
 // layout to wrap all user pages
 export default async function UsersLayout({
@@ -6,10 +8,14 @@ export default async function UsersLayout({
 }: {
 	children: React.ReactNode;
 }) {
+	const users = await getUsers();
 	return (
 		//@ts-expect-error Server Component
 		<Sidebar>
-			<div className="h-full">{children}</div>
+			<div className="h-full">
+				<UserList items={users} />
+				{children}
+			</div>
 		</Sidebar>
 	);
 }

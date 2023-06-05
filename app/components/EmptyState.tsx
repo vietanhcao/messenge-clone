@@ -1,4 +1,4 @@
-const EmtyState = () => {
+const EmptyState = () => {
 	return (
 		<div
 			className="
@@ -29,4 +29,4 @@ const EmtyState = () => {
 	);
 };
 
-export default EmtyState;
+export default EmptyState;

@@ -2,9 +2,10 @@
 
 import { User } from "@prisma/client";
 import Image from "next/image";
+import { UserGettedType } from "../types";
 
 interface AvatarProps {
-	user?: User;
+	user?: UserGettedType;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ user }) => {

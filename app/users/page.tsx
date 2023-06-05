@@ -1,4 +1,4 @@
-import EmtyState from "../components/EmtyState";
+import EmtyState from "../components/EmptyState";
 
 const User = () => {
 	return (
