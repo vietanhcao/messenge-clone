@@ -14,11 +14,11 @@ const useOtherUser = (
 	const otherUser = useMemo(() => {
 		const currentUserEmail = session?.data?.user?.email;
 
-		const otherUser = conversation.users.find((user) => {
+		// find the other user in the conversation
+		const otherUser = conversation.users.filter((user) => {
 			return user.email !== currentUserEmail;
 		});
-
-		return otherUser;
+		return otherUser[0];
 	}, [session?.data?.user?.email, conversation.users]);
 
 	return otherUser;
