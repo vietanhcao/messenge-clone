@@ -123,7 +123,7 @@ const SettingModal: React.FC<SettingModalProps> = ({
                       rounded-full
                       object-cover"
 										src={
-											image || currentUser?.image || "/images/placeholders.jpg"
+											image || currentUser?.image || "/images/placeholder.jpg"
 										}
 										alt="Avatar"
 									/>
