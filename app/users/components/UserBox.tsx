@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import Avatar from "../../components/Avatar";
+import LoadingModal from "../../components/LoadingModal";
 import { UserGettedType } from "../../types";
 
 interface UserBoxProps {
@@ -28,9 +29,11 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
 	}, [data, router]);
 
 	return (
-		<div
-			onClick={handleClick}
-			className="
+		<>
+			{isLoading && <LoadingModal />}
+			<div
+				onClick={handleClick}
+				className="
 				w-full
 				realtive
 				flex
@@ -43,23 +46,24 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
 				rounded-lg
 				transition
 			"
-		>
-			<Avatar user={data} />
-			<div className="flex-1 min-h-0">
-				<div className="focus:outline-none">
-					<div
-						className="
+			>
+				<Avatar user={data} />
+				<div className="flex-1 min-h-0">
+					<div className="focus:outline-none">
+						<div
+							className="
 						flex
 						items-center
 						justify-between
 						mb-1
 						"
-					>
-						<p className="text-sm font-medium text-gray-900"> {data.name}</p>
+						>
+							<p className="text-sm font-medium text-gray-900"> {data.name}</p>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
