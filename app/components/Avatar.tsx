@@ -2,6 +2,7 @@
 
 import { User } from "@prisma/client";
 import Image from "next/image";
+import useActiveList from "../hooks/useActiveList";
 import { UserGettedType } from "../types";
 
 interface AvatarProps {
@@ -9,6 +10,9 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ user }) => {
+	const { members } = useActiveList();
+	console.log("members", members);
+	const isActive = members.includes(user!.email);
 	return (
 		<div className="relative">
 			<div
@@ -29,8 +33,9 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
 					fill
 				/>
 			</div>
-			<span
-				className="
+			{isActive && (
+				<span
+					className="
           absolute
           block
           rounded-full
@@ -44,7 +49,8 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
           md:h-3
           md:w-3
         "
-			></span>
+				></span>
+			)}
 		</div>
 	);
 };
