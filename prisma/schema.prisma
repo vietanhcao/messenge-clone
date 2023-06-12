@@ -27,7 +27,7 @@ model User {
   seenMessages   Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
 
   accounts Account[]
-  messages Message[]
+  messages Message[] // relation to messages sent by user
 }
 
 model Account {
@@ -59,7 +59,7 @@ model Conversation {
   name          String?
   isGroup       Boolean  @default(false)
 
-  messageIds String[]  @db.ObjectId
+  messageIds String[]  @db.ObjectId // virtual field ??
   messages   Message[]
 
   userIds String[] @db.ObjectId

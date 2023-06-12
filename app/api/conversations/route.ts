@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import getCurrentUser from "../../actions/getCurrentUser";
 import client from "../../libs/prismadb";
+import { pusherServer } from "../../libs/pusher";
 
 export async function POST(request: Request) {
 	try {
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}
 
-		// ??? What is this for?
+		// check invalid group chat
 		if (isGroup && (!members || members.length < 2 || !name)) {
 			return new NextResponse("Invalid data", { status: 400 });
 		}
@@ -24,7 +25,8 @@ export async function POST(request: Request) {
 					name,
 					isGroup,
 					users: {
-						connect: [//??
+						connect: [
+							// create array of users group chat
 							...members.map((member: { value: string }) => ({
 								id: member.value,
 							})),
@@ -38,6 +40,17 @@ export async function POST(request: Request) {
 					// populate the users field
 					users: true,
 				},
+			});
+
+			// sent create conversation to all users in group chat
+			newConversations.users.forEach((user) => {
+				if (user.email) {
+					pusherServer.trigger(
+						user.email,
+						"conversation:new",
+						newConversations
+					);
+				}
 			});
 
 			return NextResponse.json(newConversations);
@@ -70,7 +83,8 @@ export async function POST(request: Request) {
 		const newConversation = await client.conversation.create({
 			data: {
 				users: {
-					connect: [ // connect to create array of users relationship
+					connect: [
+						// connect to create array of users relationship
 						{
 							id: currentUser.id,
 						},
@@ -84,6 +98,14 @@ export async function POST(request: Request) {
 				users: true,
 			},
 		});
+ 
+		// sent create conversation to all users in individual chat
+		newConversation.users.forEach((user) => {
+			if (user.email) {
+				pusherServer.trigger(user.email, "conversation:new", newConversation);
+			}
+		});
+
 		return NextResponse.json(newConversation);
 	} catch (error) {
 		return new NextResponse("Internal Error", { status: 500 });
