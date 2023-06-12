@@ -1,4 +1,3 @@
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import getCurrentUser from "../../../actions/getCurrentUser";
 import client from "../../../libs/prismadb";
@@ -9,7 +8,7 @@ interface IParams {
 }
 
 export async function DELETE(
-	req: NextApiRequest,
+	request: Request,
 	{ params }: { params: IParams }
 ) {
 	try {
