@@ -1,4 +1,5 @@
 import getUsers from "../actions/getUsers";
+import ActiveStatus from "../components/ActiveStatus";
 import Sidebar from "../components/sidebar/Sidebar";
 import UserList from "./components/UserList";
 
@@ -13,6 +14,7 @@ export default async function UsersLayout({
 		//@ts-expect-error Server Component
 		<Sidebar>
 			<div className="h-full">
+				<ActiveStatus />
 				<UserList items={users} />
 				{children}
 			</div>
