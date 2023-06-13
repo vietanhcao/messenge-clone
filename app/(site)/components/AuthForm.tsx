@@ -66,9 +66,8 @@ export const AuthForm = () => {
 						toast.error("Invalid credentials!");
 					}
 					if (callback?.ok && !callback?.error) {
-						router.refresh(); // refresh the page to get the new session
 						toast.success("Logged in successfully!");
-						// router.push("/users");
+						router.push("/users");
 					}
 				})
 				.finally(() => {
