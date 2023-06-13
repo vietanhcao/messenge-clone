@@ -75,6 +75,8 @@ export async function POST(request: Request) {
 			},
 		});
 
+		//to do check here
+
 		const singleConversation = existingConversations[0];
 		if (singleConversation) {
 			return NextResponse.json(singleConversation);

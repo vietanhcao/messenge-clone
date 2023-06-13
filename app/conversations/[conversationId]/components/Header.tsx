@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
 					transition
 					cursor-pointer
 				"
-						href={`conversation`}
+						href={`conversations`}
 					>
 						<HiChevronLeft size={32} />
 					</Link>
