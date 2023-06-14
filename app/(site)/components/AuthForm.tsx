@@ -160,7 +160,7 @@ export const AuthForm = () => {
 				>
 					<div>
 						{variant === "LOGIN"
-							? "New Messenger?"
+							? "New to Messenger?"
 							: "Already have an account?"}
 					</div>
 					<div onClick={toggleVariant} className="underline cursor-pointer">
