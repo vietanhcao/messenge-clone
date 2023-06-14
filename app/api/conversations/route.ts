@@ -75,12 +75,14 @@ export async function POST(request: Request) {
 			},
 		});
 
-		//to do check here
-
 		const singleConversation = existingConversations[0];
 		if (singleConversation) {
 			return NextResponse.json(singleConversation);
 		}
+		const arrIds = [currentUser.id, userId];
+		const arrIdsSorted = arrIds.sort((a, b) =>
+			b.toString().localeCompare(a.toString())
+		);
 
 		const newConversation = await client.conversation.create({
 			data: {
@@ -95,12 +97,13 @@ export async function POST(request: Request) {
 						},
 					],
 				},
+				idsUnique: arrIdsSorted.join("-"),
 			},
 			include: {
 				users: true,
 			},
 		});
- 
+
 		// sent create conversation to all users in individual chat
 		newConversation.users.forEach((user) => {
 			if (user.email) {
@@ -110,6 +113,7 @@ export async function POST(request: Request) {
 
 		return NextResponse.json(newConversation);
 	} catch (error) {
+		console.log(error);
 		return new NextResponse("Internal Error", { status: 500 });
 	}
 }

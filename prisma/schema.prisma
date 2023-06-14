@@ -58,6 +58,7 @@ model Conversation {
   lastMessageAt DateTime @default(now())
   name          String?
   isGroup       Boolean  @default(false)
+  idsUnique    String?  @unique
 
   messageIds String[]  @db.ObjectId // virtual field ??
   messages   Message[]

@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Button from "../../components/Button";
@@ -31,6 +31,7 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
 		formState: { errors },
 		setValue,
 		watch,
+		reset,
 	} = useForm<FieldValues>({
 		defaultValues: {
 			name: "",
@@ -46,6 +47,7 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
 			.post("/api/conversations", { ...data, isGroup: true })
 			.then((res) => {
 				router.refresh();
+				reset();
 				onClose();
 			})
 			.catch((err) => {
@@ -57,7 +59,13 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
 	};
 
 	return (
-		<Modal isOpen={isOpen} onClose={onClose}>
+		<Modal
+			isOpen={isOpen}
+			onClose={() => {
+				reset();
+				onClose();
+			}}
+		>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="space-y-12">
 					<div className="border-b border-gray-900/10 pb-12">
