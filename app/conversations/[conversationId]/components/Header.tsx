@@ -11,7 +11,7 @@ import useOtherUser from "../../../hooks/useOtherUser";
 import { UserGettedType } from "../../../types";
 import ProfileDrawer from "./ProfileDrawer";
 
-interface HeaderProps {
+interface HeaderProps { 
 	conversation: Conversation & {
 		users: UserGettedType[];
 	};
