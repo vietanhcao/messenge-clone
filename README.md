@@ -1,18 +1,32 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Getting Started 
 
-First, run the development server:
+First: init config enviroment: 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+- Change file `.env.test` to  `.env`
+
+Second: install create mongodb replica set
+
+```
+  docker-compose up -d
+```
+Then: prisma init and push schema to database
+
+```
+  npx prisma init
+  npx prisma db push 
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Next: install dependencies and run project
+
+```
+  yarn install
+  yarn dev
+```
+
+
+Open [http://localhost:3000](http://localhost:3000) wiåth your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
