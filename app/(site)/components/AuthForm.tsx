@@ -136,11 +136,13 @@ export const AuthForm = () => {
 
 					<div className="mt-6 flex gap-2">
 						<AuthSocialButton
+							disabled={isLoading}
 							icon={BsGithub}
 							onClick={() => socialAction("github")}
 						/>
 
 						<AuthSocialButton
+							disabled={isLoading}
 							icon={BsGoogle}
 							onClick={() => socialAction("google")}
 						/>
